@@ -1,33 +1,64 @@
+import mongoose from "mongoose";
+import { Repository } from "../models/repoModel.js";
+import { Issue } from "../models/issueModel.js";
+import { User } from "../models/userModel.js";
 
+export async function createRepos(req, res) {
+  const { owner, name, description, content, visibility } = req.body;
 
-export const createRepos = (req, res) => {
-  console.log("Repository createed");
-};
+  try {
+    if (!name) {
+      return res.status(400).json({ message: "Repository name is required" });
+    }
+    if (!mongoose.Types.ObjectId.isValid(owner)) {
+      return res.status(400).json({ message: "Invalid owner ID" });
+    }
+    const newRepo = new Repository({
+      owner,
+      name,
+      description,
+      issues: [],
+      content,
+      visibility,
+    });
 
-export const getAllRepos = (req, res) => {
+    const savedRepo = await newRepo.save();
+
+    res.status(201).json({
+      message: "Repository created successfully",
+      repositoryId: savedRepo._id,
+      repository: savedRepo,
+    });
+  } catch (error) {
+    console.error("[ Error during repository creation ] : ", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+}
+
+export async function getAllRepos(req, res) {
   console.log("All Repositories");
-};
+}
 
-export const fetchRepoById = (req, res) => {
+export async function fetchRepoById(req, res) {
   console.log("Repository with ID");
-};
+}
 
-export const fetchReposByName = (req, res) => {
+export async function fetchReposByName(req, res) {
   console.log("Repository with Name");
-};
+}
 
-export const fetchReposForCurrewntUser = (req, res) => {
+export async function fetchReposForCurrewntUser(req, res) {
   console.log("Repositories for current user");
-};
+}
 
-export const updateRepoById = (req, res) => {
+export async function updateRepoById(req, res) {
   console.log("Repository updated");
-};
+}
 
-export const toggleVisibilityById = (req, res) => {
+export async function toggleVisibilityById(req, res) {
   console.log("Repository visibility toggled");
-};
+}
 
-export const deleteRepoById = (req, res) => {
+export async function deleteRepoById(req, res) {
   console.log("Repository deleted");
-};
+}
