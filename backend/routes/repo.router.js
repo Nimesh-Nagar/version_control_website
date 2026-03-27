@@ -17,8 +17,8 @@ repoRouter.post("/repos/create", createRepos);
 
 repoRouter.get("/repos/all", getAllRepos);
 repoRouter.get("/repos/:id", fetchRepoById);
-repoRouter.get("/repos/:name", fetchReposByName);
-repoRouter.get("/repos/:userID", fetchReposForCurrewntUser);
+repoRouter.get("/repos/name/:name", fetchReposByName);
+repoRouter.get("/repos/user/:userID", fetchReposForCurrewntUser);
 
 repoRouter.put("/repos/update/:id", updateRepoById);
 repoRouter.delete("/repos/delete/:id", deleteRepoById);
